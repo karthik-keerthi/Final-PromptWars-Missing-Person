@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "MissingPerson": {
+      "title": "MissingPerson",
+      "description": "A record of a missing person.",
+      "type": "object",
+      "properties": {
+        "registrationNumber": {
+          "type": "string",
+          "description": "Unique registration number for the case."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the missing person."
+        },
+        "relation": {
+          "type": "string",
+          "description": "Relation of the missing person to the reporter or parent/guardian name."
+        },
+        "dateMissingFrom": {
+          "type": "string",
+          "description": "Date when the person went missing."
+        },
+        "lastSeen": {
+          "type": "string",
+          "description": "Location where the person was last seen."
+        },
+        "mobileNumbers": {
+          "type": "string",
+          "description": "Contact mobile numbers."
+        },
+        "age": {
+          "type": "number",
+          "description": "Age of the missing person."
+        },
+        "languagesKnown": {
+          "type": "string",
+          "description": "Languages known by the missing person."
+        },
+        "district": {
+          "type": "string",
+          "description": "District where the person went missing."
+        },
+        "policeStationArea": {
+          "type": "string",
+          "description": "Police station area handling the case."
+        },
+        "caseRegistered": {
+          "type": "string",
+          "description": "Case registration details/FIR number."
+        },
+        "mentalHealthStatus": {
+          "type": "string",
+          "description": "Mental health status of the missing person."
+        },
+        "personImageWebLink": {
+          "type": "string",
+          "description": "URL link to the image of the missing person."
+        },
+        "reporterUid": {
+          "type": "string",
+          "description": "UID of the user who reported the missing person."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["missing", "found"],
+          "description": "Current status of the missing person."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the record was created."
+        }
+      },
+      "required": ["name", "age", "personImageWebLink", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/missingPersons/{personId}": {
+      "schema": {
+        "$ref": "#/entities/MissingPerson"
+      },
+      "description": "Collection of missing persons."
+    }
+  }
+}

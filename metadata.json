@@ -1,0 +1,7 @@
+{
+  "name": "Missing Person Finder (Delhi)",
+  "description": "Public missing person live identification and registration system using GCP services.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
