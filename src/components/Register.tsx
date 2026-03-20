@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { GoogleGenAI } from '@google/genai';
 
 export default function Register() {
   const { t } = useTranslation();
@@ -24,9 +25,29 @@ export default function Register() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file size (limit to ~1MB to avoid Firestore document size limits)
+      if (file.size > 1024 * 1024) {
+        setErrorMessage(t('image_too_large'));
+        setStatus('error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, personImageWebLink: reader.result as string });
+        setStatus('idle');
+        setErrorMessage(null);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,14 +55,60 @@ export default function Register() {
 
     setIsSubmitting(true);
     setStatus('idle');
+    setErrorMessage(null);
 
     try {
+      let embedding = null;
+      
+      // Generate embedding if an image is provided
+      if (formData.personImageWebLink) {
+        try {
+          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+          let base64Data = '';
+          let mimeType = 'image/jpeg';
+
+          if (formData.personImageWebLink.startsWith('data:image')) {
+            base64Data = formData.personImageWebLink.split(',')[1];
+            mimeType = formData.personImageWebLink.split(';')[0].split(':')[1];
+          } else {
+             // Attempt to fetch URL and convert to base64 (may fail due to CORS)
+             const response = await fetch(formData.personImageWebLink);
+             const blob = await response.blob();
+             base64Data = await new Promise((resolve) => {
+               const reader = new FileReader();
+               reader.onloadend = () => resolve((reader.result as string).split(',')[1]);
+               reader.readAsDataURL(blob);
+             });
+             mimeType = blob.type;
+          }
+
+          const embedResult = await ai.models.embedContent({
+            model: 'gemini-embedding-2-preview',
+            contents: [
+              {
+                inlineData: {
+                  data: base64Data,
+                  mimeType: mimeType,
+                },
+              },
+            ],
+          });
+          
+          embedding = embedResult.embeddings?.[0]?.values;
+        } catch (err) {
+          console.error("Failed to generate embedding:", err);
+          throw new Error(t('embedding_error'));
+        }
+      }
+
       await addDoc(collection(db, 'missingPersons'), {
         ...formData,
         age: parseInt(formData.age) || 0,
         status: 'missing',
+        embedding: embedding,
         createdAt: serverTimestamp()
       });
+      
       setStatus('success');
       setFormData({
         name: '', relation: '', dateMissingFrom: '', lastSeen: '', mobileNumbers: '',
@@ -50,6 +117,7 @@ export default function Register() {
       });
     } catch (error) {
       console.error("Error adding document: ", error);
+      setErrorMessage(error instanceof Error ? error.message : "An error occurred while registering.");
       setStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -71,7 +139,7 @@ export default function Register() {
         {status === 'error' && (
           <div className="mb-6 p-4 bg-rose-50 text-rose-700 rounded-md flex items-center gap-2">
             <AlertCircle className="w-5 h-5" />
-            {t('error')}
+            {errorMessage || t('error')}
           </div>
         )}
 
@@ -123,7 +191,37 @@ export default function Register() {
             </div>
             <div className="md:col-span-2">
               <label htmlFor="personImageWebLink" className="block text-sm font-medium text-gray-700 mb-1">{t('image_url')} *</label>
-              <input id="personImageWebLink" required type="url" name="personImageWebLink" value={formData.personImageWebLink} onChange={handleChange} placeholder="https://..." className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" aria-required="true" />
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <input 
+                  id="personImageWebLink" 
+                  required={!formData.personImageWebLink.startsWith('data:image')} 
+                  type="text" 
+                  name="personImageWebLink" 
+                  value={formData.personImageWebLink} 
+                  onChange={handleChange} 
+                  placeholder={t('image_placeholder')} 
+                  className="w-full sm:flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" 
+                  aria-required="true" 
+                />
+                <span className="text-gray-500 hidden sm:inline">or</span>
+                <label className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-indigo-600 border border-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors cursor-pointer whitespace-nowrap">
+                  <Upload className="w-4 h-4" aria-hidden="true" /> {t('upload_photo')}
+                  <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                </label>
+              </div>
+              {formData.personImageWebLink && formData.personImageWebLink.startsWith('data:image') && (
+                <div className="mt-4 relative inline-block">
+                  <img src={formData.personImageWebLink} alt="Preview" className="h-32 w-32 object-cover rounded-md border border-gray-200 shadow-sm" />
+                  <button 
+                    type="button" 
+                    onClick={() => setFormData({...formData, personImageWebLink: ''})} 
+                    className="absolute -top-2 -right-2 bg-rose-100 text-rose-600 rounded-full p-1 hover:bg-rose-200 transition-colors shadow-sm"
+                    aria-label="Remove Image"
+                  >
+                    <AlertCircle className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
