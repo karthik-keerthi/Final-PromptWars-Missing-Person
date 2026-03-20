@@ -139,12 +139,13 @@ export default function Search() {
                   <button 
                     onClick={capture}
                     className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors"
+                    aria-label="Capture Photo"
                   >
-                    <Camera className="w-4 h-4" /> {t('capture_photo')}
+                    <Camera className="w-4 h-4" aria-hidden="true" /> {t('capture_photo')}
                   </button>
-                  <label className="flex-1 flex items-center justify-center gap-2 bg-white text-indigo-600 border border-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors cursor-pointer">
-                    <Upload className="w-4 h-4" /> {t('upload_photo')}
-                    <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                  <label className="flex-1 flex items-center justify-center gap-2 bg-white text-indigo-600 border border-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors cursor-pointer" aria-label="Upload Photo">
+                    <Upload className="w-4 h-4" aria-hidden="true" /> {t('upload_photo')}
+                    <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} aria-hidden="true" />
                   </label>
                 </div>
               </div>
@@ -155,19 +156,21 @@ export default function Search() {
                   <button 
                     onClick={() => { setImageSrc(null); setMatchResult(null); }}
                     className="absolute top-2 right-2 bg-gray-900/50 text-white p-1 rounded-full hover:bg-gray-900/70"
+                    aria-label="Clear Image"
                   >
-                    <XCircle className="w-6 h-6" />
+                    <XCircle className="w-6 h-6" aria-hidden="true" />
                   </button>
                 </div>
                 <button 
                   onClick={analyzeImage}
                   disabled={isAnalyzing}
                   className="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                  aria-busy={isAnalyzing}
                 >
                   {isAnalyzing ? (
                     <span className="animate-pulse">{t('analyzing')}</span>
                   ) : (
-                    <><SearchIcon className="w-5 h-5" /> Analyze Image</>
+                    <><SearchIcon className="w-5 h-5" aria-hidden="true" /> Analyze Image</>
                   )}
                 </button>
               </div>
@@ -175,10 +178,10 @@ export default function Search() {
           </div>
 
           {/* Results Section */}
-          <div className="bg-gray-50 rounded-lg p-6 border border-gray-100 flex flex-col justify-center min-h-[300px]">
+          <div className="bg-gray-50 rounded-lg p-6 border border-gray-100 flex flex-col justify-center min-h-[300px]" aria-live="polite">
             {isAnalyzing && (
               <div className="text-center text-gray-500">
-                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4" aria-hidden="true"></div>
                 <p>{t('analyzing')}</p>
               </div>
             )}

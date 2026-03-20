@@ -37,28 +37,28 @@ export default function Home() {
       {/* Stats Section */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <Activity className="text-indigo-600" />
+          <Activity className="text-indigo-600" aria-hidden="true" />
           {t('stats_title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-indigo-50 rounded-lg p-4 flex items-start gap-4">
-            <div className="bg-indigo-100 p-3 rounded-full text-indigo-600">
+          <div className="bg-indigo-50 rounded-lg p-4 flex items-start gap-4" role="status" aria-label="Stat 1">
+            <div className="bg-indigo-100 p-3 rounded-full text-indigo-600" aria-hidden="true">
               <AlertCircle className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-indigo-900 font-medium">{t('stats_1')}</p>
             </div>
           </div>
-          <div className="bg-rose-50 rounded-lg p-4 flex items-start gap-4">
-            <div className="bg-rose-100 p-3 rounded-full text-rose-600">
+          <div className="bg-rose-50 rounded-lg p-4 flex items-start gap-4" role="status" aria-label="Stat 2">
+            <div className="bg-rose-100 p-3 rounded-full text-rose-600" aria-hidden="true">
               <Users className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm text-rose-900 font-medium">{t('stats_2')}</p>
             </div>
           </div>
-          <div className="bg-emerald-50 rounded-lg p-4 flex items-start gap-4">
-            <div className="bg-emerald-100 p-3 rounded-full text-emerald-600">
+          <div className="bg-emerald-50 rounded-lg p-4 flex items-start gap-4" role="status" aria-label="Stat 3">
+            <div className="bg-emerald-100 p-3 rounded-full text-emerald-600" aria-hidden="true">
               <MapPin className="w-6 h-6" />
             </div>
             <div>
@@ -70,13 +70,13 @@ export default function Home() {
 
       {/* Recent Reports */}
       <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('recent_reports')}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" aria-label="Recent Reports List">
         {recentReports.map((person) => (
           <div key={person.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div className="h-48 w-full bg-gray-200 relative">
               <img 
                 src={person.personImageWebLink || 'https://picsum.photos/seed/missing/400/300'} 
-                alt={person.name} 
+                alt={`Photo of ${person.name}`} 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />

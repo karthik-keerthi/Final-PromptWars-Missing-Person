@@ -75,55 +75,55 @@ export default function Register() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" aria-label="Register Missing Person Form">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('name')} *</label>
-              <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">{t('name')} *</label>
+              <input id="name" required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" aria-required="true" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('age')} *</label>
-              <input required type="number" name="age" value={formData.age} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-1">{t('age')} *</label>
+              <input id="age" required type="number" name="age" value={formData.age} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" aria-required="true" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('relation')}</label>
-              <input type="text" name="relation" value={formData.relation} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="relation" className="block text-sm font-medium text-gray-700 mb-1">{t('relation')}</label>
+              <input id="relation" type="text" name="relation" value={formData.relation} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('date_missing')}</label>
-              <input type="date" name="dateMissingFrom" value={formData.dateMissingFrom} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="dateMissingFrom" className="block text-sm font-medium text-gray-700 mb-1">{t('date_missing')}</label>
+              <input id="dateMissingFrom" type="date" name="dateMissingFrom" value={formData.dateMissingFrom} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('last_seen')}</label>
-              <input type="text" name="lastSeen" value={formData.lastSeen} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="lastSeen" className="block text-sm font-medium text-gray-700 mb-1">{t('last_seen')}</label>
+              <input id="lastSeen" type="text" name="lastSeen" value={formData.lastSeen} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('mobile')}</label>
-              <input type="text" name="mobileNumbers" value={formData.mobileNumbers} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="mobileNumbers" className="block text-sm font-medium text-gray-700 mb-1">{t('mobile')}</label>
+              <input id="mobileNumbers" type="text" name="mobileNumbers" value={formData.mobileNumbers} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('languages')}</label>
-              <input type="text" name="languagesKnown" value={formData.languagesKnown} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="languagesKnown" className="block text-sm font-medium text-gray-700 mb-1">{t('languages')}</label>
+              <input id="languagesKnown" type="text" name="languagesKnown" value={formData.languagesKnown} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('district')}</label>
-              <input type="text" name="district" value={formData.district} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="district" className="block text-sm font-medium text-gray-700 mb-1">{t('district')}</label>
+              <input id="district" type="text" name="district" value={formData.district} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('police_station')}</label>
-              <input type="text" name="policeStationArea" value={formData.policeStationArea} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="policeStationArea" className="block text-sm font-medium text-gray-700 mb-1">{t('police_station')}</label>
+              <input id="policeStationArea" type="text" name="policeStationArea" value={formData.policeStationArea} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('case_registered')}</label>
-              <input type="text" name="caseRegistered" value={formData.caseRegistered} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="caseRegistered" className="block text-sm font-medium text-gray-700 mb-1">{t('case_registered')}</label>
+              <input id="caseRegistered" type="text" name="caseRegistered" value={formData.caseRegistered} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('mental_health')}</label>
-              <input type="text" name="mentalHealthStatus" value={formData.mentalHealthStatus} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="mentalHealthStatus" className="block text-sm font-medium text-gray-700 mb-1">{t('mental_health')}</label>
+              <input id="mentalHealthStatus" type="text" name="mentalHealthStatus" value={formData.mentalHealthStatus} onChange={handleChange} className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('image_url')} *</label>
-              <input required type="url" name="personImageWebLink" value={formData.personImageWebLink} onChange={handleChange} placeholder="https://..." className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" />
+              <label htmlFor="personImageWebLink" className="block text-sm font-medium text-gray-700 mb-1">{t('image_url')} *</label>
+              <input id="personImageWebLink" required type="url" name="personImageWebLink" value={formData.personImageWebLink} onChange={handleChange} placeholder="https://..." className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" aria-required="true" />
             </div>
           </div>
 
@@ -132,6 +132,7 @@ export default function Register() {
               type="submit"
               disabled={isSubmitting}
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-busy={isSubmitting}
             >
               {isSubmitting ? t('submitting') : t('submit')}
             </button>

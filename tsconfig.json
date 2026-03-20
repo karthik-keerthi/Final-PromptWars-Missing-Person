@@ -15,6 +15,7 @@
     "moduleDetection": "force",
     "allowJs": true,
     "resolveJsonModule": true,
+    "types": ["vitest/globals"],
     "jsx": "react-jsx",
     "paths": {
       "@/*": [

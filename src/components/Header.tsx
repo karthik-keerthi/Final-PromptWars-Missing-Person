@@ -21,17 +21,20 @@ export default function Header() {
             </Link>
           </div>
           
-          <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="hover:text-indigo-200 transition-colors">{t('home')}</Link>
-            <Link to="/search" className="hover:text-indigo-200 transition-colors flex items-center gap-1"><Search className="w-4 h-4" /> {t('search_identify')}</Link>
-            <Link to="/register" className="hover:text-indigo-200 transition-colors flex items-center gap-1"><UserPlus className="w-4 h-4" /> {t('register_missing')}</Link>
+          <nav className="hidden md:flex space-x-8" aria-label="Main Navigation">
+            <Link to="/" className="hover:text-indigo-200 transition-colors" aria-label="Home">{t('home')}</Link>
+            <Link to="/search" className="hover:text-indigo-200 transition-colors flex items-center gap-1" aria-label="Search and Identify"><Search className="w-4 h-4" aria-hidden="true" /> {t('search_identify')}</Link>
+            <Link to="/register" className="hover:text-indigo-200 transition-colors flex items-center gap-1" aria-label="Register Missing Person"><UserPlus className="w-4 h-4" aria-hidden="true" /> {t('register_missing')}</Link>
           </nav>
 
           <div className="flex items-center space-x-4">
+            <label htmlFor="language-select" className="sr-only">Choose Language</label>
             <select 
+              id="language-select"
               onChange={(e) => changeLanguage(e.target.value)} 
               value={i18n.language}
               className="bg-indigo-700 text-white border-none rounded-md py-1 px-2 focus:ring-2 focus:ring-white"
+              aria-label="Select Language"
             >
               <option value="en">English</option>
               <option value="hi">हिंदी</option>
